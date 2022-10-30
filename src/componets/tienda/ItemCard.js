@@ -1,37 +1,16 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom"
 
-const ItemCard = ({id, name, image}) => {
+ const ItemCard = ( {id, name, price, image} ) => {
+    return (
+      <Link to={`/detail/${id}`}  >
+          <div>{name}</div>
+          <div>$ {price}</div>
+          <img src={image} width={200}/>
+      </Link>
+    )
+  }
 
-    const styles = {
-       
-        width: '600px',
-        height: 'auto',
-        margin: '10px',
-        textAlign: 'left',
-        border: 'solid 2px black',
-        color: 'yellow',
-        textAlign: 'center',
-        fontSize: '50px',
-        
-       
-        
-    }
+export default ItemCard
 
-    const stylesImg = {
-        width: '100%',
-        height: 'auto', 
-    }
 
-  return (
-    <Link to={`/item/${id}`}>
-     <div style={styles} className='m-5'>
-        <img style={stylesImg} src={image}/>
-        <div>{name}</div>
-    </div>
-    </Link>
-   
-  )
-}
 
-export default ItemCard 

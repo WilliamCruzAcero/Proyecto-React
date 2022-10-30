@@ -1,39 +1,44 @@
 import React, { useEffect, useState } from 'react'
-import { productos } from './data/productos'
+import { collection, getDocs, getFirestore } from 'firebase/firestore'
 import ItemCard from './ItemCard'
-
-
 
 
 const ItemListContainer = () => {
 
-    const [items, setItems] = useState([])
+  const [products, setProducts] = useState({})
+  const [loading, setLoading] = useState(true)
 
-    useEffect(() => {
-        getProductos().then( response => {
-            console.log(response);
-            setItems(response)
-        }
-            
-        )
-    }, [])
+  useEffect(() => {
+    getProducts()
+  }, [])
 
-    const getProductos = () => {
-        return new Promise( resolve => {
-          setTimeout(() => {
-            resolve( productos  )
-          }, 3000);  
-        })
+  const getProducts = () => { 
+    const db = getFirestore()
+    const productsCollection = collection(db, 'products')
+    getDocs ( productsCollection ).then(resp => {
+      const productsData = resp.docs.map( d => ({id: d.id, ...d.data()}))
+      console.log(productsData);
+      setProducts(productsData )
+      setLoading(false)
+    })
 
-    }
-         
+   }
+  
   return (
-    <>
-        <div>MI TIENDA</div>
-        {items.map( items => <ItemCard key={items.id} {...items}/> )}
-    </>
-    
+    <div>
+      <div className='m-10'>MI TIENDA</div>
+      {loading ? <h1> Cargando...</h1>
+      :products.map( p => <ItemCard key={p.id} {...p}/>)}
+      
+      
+    </div>
   )
 }
 
 export default ItemListContainer
+
+
+
+
+
+

@@ -1,10 +1,12 @@
-/* import logo from './logo.svg'; */
 import './App.css';
 import NavBar from './componets/navBar';
-import Clicker from './componets/Clicker';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ItemListContainer from './componets/tienda/ItemListContainer';
-import ItemDetailContainer from './componets/tienda/ItemDetailContainer';
+import CartWidget from './componets/tienda/CartWidget';
+import ItemDetail from './componets/tienda/ItemDetail';
+import { CartContextProvider } from './componets/context/cartContext';
+import 'boxicons' 
+
 
 
 
@@ -13,24 +15,17 @@ function App() {
   
 
   return (
-    <> 
+    <CartContextProvider>
       <BrowserRouter>
         <NavBar/>
         <Routes>
           <Route path='/' element={<ItemListContainer/>}/>
-          <Route path='/category/:id' element={<ItemListContainer/>}/>
-          <Route path='/item/:id' element={<ItemDetailContainer/>}/>
+          <Route path='/cart' element={<CartWidget/>}/>
+          <Route path='/detail/:id' element={<ItemDetail/>}/>
         </Routes>
-      
       </BrowserRouter>
-      
-      <Clicker/>
-        
-      
-        
-    
-    </>
-);
+    </CartContextProvider> 
+  );
 } 
 
 export default App; 
